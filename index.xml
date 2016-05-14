@@ -6,8 +6,52 @@
     <description>Recent content on Gabriel Teles</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Wed, 11 May 2016 21:19:58 -0300</lastBuildDate>
+    <lastBuildDate>Sat, 14 May 2016 14:09:35 -0300</lastBuildDate>
     <atom:link href="http://gabrielteles.com.br/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Code</title>
+      <link>http://gabrielteles.com.br/code/</link>
+      <pubDate>Sat, 14 May 2016 14:09:35 -0300</pubDate>
+      
+      <guid>http://gabrielteles.com.br/code/</guid>
+      <description>
+
+&lt;p&gt;I&amp;rsquo;m always trying to learn or do something new, even when it&amp;rsquo;s useless. Take a look at some of my personal projects in which I&amp;rsquo;ve worked on:&lt;/p&gt;
+
+&lt;h3 id=&#34;rbtscp-https-github-com-gabteles-rbtscp:cb7f612e17aad7eb26c06709ef92a867&#34;&gt;&lt;a href=&#34;https://github.com/gabteles/RbTSCP&#34;&gt;RbTSCP&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Ruby implementation of &lt;a href=&#34;http://www.tckerrigan.com/Chess/TSCP/&#34;&gt;Tom Kerrigan&amp;rsquo;s Simple Chess Program (TSCP)&lt;/a&gt;, for sure not the best implementation that it can have, since this implementation was made just to work and be improved later. It&amp;rsquo;s ELO is about 1370, it means that it can win from newbies and some average players.&lt;/p&gt;
+
+&lt;h3 id=&#34;zombierb-https-github-com-gabteles-zombierb:cb7f612e17aad7eb26c06709ef92a867&#34;&gt;&lt;a href=&#34;https://github.com/gabteles/ZombieRB&#34;&gt;ZombieRB&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Implementation of the ZOMBIE-ORIENTED MACHINE BEING INTERFACE ENGINE (Zombie). You know, like Hex, but with evil beings! Written in Ruby to offset the evil a bit. Evil necromancers might want to &lt;a href=&#34;http://www.dangermouse.net/esoteric/zombie.html&#34;&gt;go here&lt;/a&gt; to read the specification.&lt;/p&gt;
+
+&lt;h3 id=&#34;gulp-less2sass-https-github-com-gabteles-gulp-less2sass:cb7f612e17aad7eb26c06709ef92a867&#34;&gt;&lt;a href=&#34;https://github.com/gabteles/gulp-less2sass&#34;&gt;gulp-less2sass&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;This was my first NPM package and Gulp plugin released, it was made to learn how to do both. It takes &lt;a href=&#34;http://lesscss.org/&#34;&gt;Less&lt;/a&gt; code and transpiles to &lt;a href=&#34;http://sass-lang.com/&#34;&gt;Sass&lt;/a&gt;. Will not work with all Less codes, but it was not the purpose.&lt;/p&gt;
+
+&lt;h3 id=&#34;interest-guesser-poc-https-github-com-gabteles-interest-guesser-poc-and-interest-guesser-https-github-com-gabteles-interest-guesser:cb7f612e17aad7eb26c06709ef92a867&#34;&gt;&lt;a href=&#34;https://github.com/gabteles/interest-guesser-poc&#34;&gt;Interest Guesser POC&lt;/a&gt; and &lt;a href=&#34;https://github.com/gabteles/interest-guesser&#34;&gt;Interest Guesser&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Interest Guesser learn the user&amp;rsquo;s interests and then guesses about. It was made to learn some new things like Node.JS, Machine Learning, Natural Language Processing. The POC was a success, then I keep the idea and tried to learn some things more: &lt;a href=&#34;http://spring.io/&#34;&gt;Spring&lt;/a&gt;, &lt;a href=&#34;http://redis.io/&#34;&gt;Redis&lt;/a&gt;, &lt;a href=&#34;http://hadoop.apache.org/&#34;&gt;Hadoop&lt;/a&gt;, &lt;a href=&#34;http://cassandra.apache.org/&#34;&gt;Cassandra&lt;/a&gt;, &lt;a href=&#34;http://kafka.apache.org/&#34;&gt;Kafka&lt;/a&gt;, &lt;a href=&#34;http://yeoman.io/&#34;&gt;Yeoman&lt;/a&gt; and REST APIs. Unfortunately, I&amp;rsquo;ve not finished the Java version, but I&amp;rsquo;ve learned much of what was purposed.&lt;/p&gt;
+
+&lt;h3 id=&#34;befunge-93-interpreter-https-github-com-gabteles-befungeinterpreter:cb7f612e17aad7eb26c06709ef92a867&#34;&gt;&lt;a href=&#34;https://github.com/gabteles/BefungeInterpreter&#34;&gt;Befunge-93 Interpreter&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;This is a Ruby implementation of Befunge&amp;rsquo;s interpreter. It means that you can run befunge code inside your ruby application and get it&amp;rsquo;s output during runtime. &lt;em&gt;&amp;ldquo;Befunge is a two-dimensional fungeoidal (in fact, the original fungeoid) esoteric programming language invented in 1993 by Chris Pressey with the goal of being as difficult to compile as possible.&amp;rdquo;&lt;/em&gt; - &lt;a href=&#34;https://esolangs.org/wiki/Befunge&#34;&gt;Esolangs&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;rpg-maker-game-exe-in-ruby-https-gist-github-com-gabteles-10000006:cb7f612e17aad7eb26c06709ef92a867&#34;&gt;&lt;a href=&#34;https://gist.github.com/gabteles/10000006&#34;&gt;RPG Maker Game.exe in Ruby&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Ruby implementation of RPG Maker&amp;rsquo;s Game.exe. Implementations in C and C++ were kind confuse before it. Main objetive with this implementation was to show initialization cycle in a more readable way.&lt;/p&gt;
+
+&lt;h3 id=&#34;ruby-brainf-k-https-gist-github-com-gabteles-5996335:cb7f612e17aad7eb26c06709ef92a867&#34;&gt;&lt;a href=&#34;https://gist.github.com/gabteles/5996335&#34;&gt;Ruby Brainf**k&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Brainf**k language implementation in Ruby.&lt;/p&gt;
+
+&lt;h3 id=&#34;big-factorial-https-algorithmia-com-algorithms-gabteles-bigfactorial:cb7f612e17aad7eb26c06709ef92a867&#34;&gt;&lt;a href=&#34;https://algorithmia.com/algorithms/gabteles/BigFactorial&#34;&gt;Big Factorial&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Calculate large number&amp;rsquo;s factorial using Stirling&amp;rsquo;s Approximation. For a given number N, will return the significant digits and the exponent for scientific notation of N!.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>About</title>
