@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<base href="http://gabrielteles.com.br/">
+<title>
+
+
+     How floats can screw your code 
+
+</title>
+<link rel="canonical" href="http://gabrielteles.com.br/blog/how-floats-can-screw-your-code/">
+
+
+<script type="text/javascript">
+    var baseURL = 'http:\/\/gabrielteles.com.br\/';
+    var host = baseURL.substring(0, baseURL.length - 1).replace(/\//g, '');
+    if ((host === window.location.host) && (window.location.protocol !== 'https:')) {
+        window.location.protocol = 'https:';
+    }
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="http://gabrielteles.com.br/css/reset.css">
+<link rel="stylesheet" href="http://gabrielteles.com.br/css/pygments.css">
+<link rel="stylesheet" href="http://gabrielteles.com.br/css/main.css">
+
+
+
+
+
+
+<link rel="shortcut icon"
+
+    href="http://gabrielteles.com.br/favicon.ico"
+
+>
+
+
+
+</head>
+
+
+<body lang="en">
+
+<section class="header"> 
+    <div class="container">
+        <div class="content">
+            <a href="http://gabrielteles.com.br/"><div class="name">Gabriel Teles</div></a>
+            <nav>
+                <ul>
+                    <a href="http://gabrielteles.com.br/blog/"><li>Blog</li></a>
+                    <a href="http://gabrielteles.com.br/about/"><li>About</li></a>
+                    <a href="http://gabrielteles.com.br/code/"><li>Code</li></a>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<section class="icons">
+    <div class="container">
+        <div class="content">
+
+        
+            <a href="//github.com/gabteles" target="_blank">
+                <i class="icon ion-social-github"></i>
+            </a>
+        
+        
+        
+
+        
+            <a href="//linkedin.com/in/gabrieltelesbastos" target="_blank">
+                <i class="icon ion-social-linkedin"></i>
+            </a>
+        
+
+        
+
+        
+
+        
+            <a href="mailto:gab.teles@hotmail.com">
+                <i class="icon ion-ios-email larger"></i>
+            </a>
+        
+        </div>
+    </div>
+</section>
+
+
+<section class="main post non-narrow zero-top-spacing">
+    <div class="container">
+        <div class="content">
+            <div class="front-matter">
+                <div class="title-container">
+                    <div class="page-heading">
+
+    How floats can screw your code
+
+</div>
+
+                    <div class="initials"><a href="http://gabrielteles.com.br/"></a></div>
+                </div>
+                <div class="meta">
+                    <div class="date" title="Wed, Jun 8 2016 01:20:19 BRT">Jun 8, 2016</div>
+                    <div class="reading-time"><div class="middot"></div>3 minutes read</div>
+                </div>
+            </div>
+            <div class="markdown">
+                
+
+<p>At <a href="https://www.pdvend.com.br/">PDVend</a> I handle monetary operations everytime and everywhere at our codebase, from our Ruby on Rails API to our client apps. Since money isn&rsquo;t just integer at all, we have a lot of trouble with this. I&rsquo;ll show you some implications of using floats (or doubles) in your code, some situations that you actually can use it and alternatives to.</p>
+
+<h4 id="floats-are-evil:dd275889c84c5fa9cf6dac833d96526d">Floats are evil</h4>
+
+<p>Let&rsquo;s start trying out Ruby:</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span></span><span class="n">a</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span><span class="mi">1</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span><span class="mi">2</span>
+<span class="nb">puts</span> <span class="s2">&quot;a + b = </span><span class="si">#{</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p>You probably expect this to output something like <code>a + b = 0.3</code>. Try to run and you&rsquo;ll see that it&rsquo;s <code>a + b = 0.30000000000000004</code>.</p>
+
+<p>What just happened here? To answer this, we must remember that floats are binary representations of decimal numbers. Not always binary can represent them or it&rsquo;s operations with exact accuracy. Memory is limited, you cannot handle them</p>
+
+<p>But what about real world examples?</p>
+
+<p>In 1991, an missile was launched in Saudi Arabia against an american detachment. Another missile called Patriot was going to intercept it. Since Patriot missile battery was on for about 100 hours, it let the timestamps, which where stored as floats, to slowly introduce some diferences from the real timestamp to the computed timestamp.</p>
+
+<p>If you remember your physics classes, you can imagine that in order to intercept, Patriot would have to calculate the other missile speed and distance and adjust it direction to the other missile. Speed is measured in distance by time and, since  interceptor missile has some mismatches in time, I think it&rsquo;s not going to work.</p>
+
+<p>Back to our case, Patriot had about a <sup>1</sup>&frasl;<sub>3</sub> second of difference in it&rsquo;s timestamp. It means aproximately 600 meters due to it&rsquo;s speed. Float killed 23 soldiers that day.</p>
+
+<p>You can read about the case in the U.S. Government Accountability Office <a href="http://www.gao.gov/products/IMTEC-92-26">Report</a>.</p>
+
+<h4 id="not-that-evil-when-to-use-how-to-use:dd275889c84c5fa9cf6dac833d96526d">Not <em>that</em> evil&hellip; When to use? How to use?</h4>
+
+<p>Float inaccuracy can be an serious problem in some cases. Is it in all cases?</p>
+
+<p>Most of programmers only discover about float problems in the day which them have some trouble with it. It happens because, for most cases, some little imprecisions are tolerated. In some cases floats are transformed to integers.</p>
+
+<p>This datatype can be used when you can handle small imprecisions, like when there&rsquo;s no problem if your character&rsquo;s HP bar is 0.000000282px to the right or 0.000000013231px emptier than it should be.</p>
+
+<p>When using this datatypes, keep attention to possible errors looking to this points:</p>
+
+<ul>
+<li>Sums or subtractions (&ldquo;Unsafe&rdquo; operations, due to floating point math)</li>
+<li>Operations in iterations</li>
+<li>Code stability (wheter it tent do reduce or magnify errors if floats)</li>
+</ul>
+
+<h4 id="alternatives-to-float:dd275889c84c5fa9cf6dac833d96526d">Alternatives to Float</h4>
+
+<p>Most languages have workarounds to floats. Here goes some of them:</p>
+
+<ul>
+<li>C#: <a href="https://msdn.microsoft.com/en-us/library/364x0z75.aspx?f=255&amp;MSPPError=-2147217396">decimal</a></li>
+<li>Java: <a href="https://docs.oracle.com/javase/7/docs/api/java/math/BigDecimal.html">java.math.BigDecimal</a></li>
+<li>Javascript: <a href="https://github.com/MikeMcl/bignumber.js">bignumber.js</a></li>
+<li>PHP: <a href="http://php.net/manual/en/ref.bc.php">BC Module</a></li>
+<li>Ruby: <a href="http://ruby-doc.org/stdlib-2.1.2/libdoc/bigdecimal/rdoc/BigDecimal.html">BigDecimal</a></li>
+</ul>
+
+<p>Another strategy is to simplify your usage of floats. At PDVend, one of the solutions that emerged when we had to resolve float problems with money was to treat all of it as cents, the smallest money unit available.</p>
+
+<p>Examine what makes senses to your business.</p>
+
+<h4 id="conclusion:dd275889c84c5fa9cf6dac833d96526d">Conclusion</h4>
+
+<p>Float is evil, floats can kill, but you can give them a try. You should only keep an eye on your needs and restrictions. Think about what would happen if you have an 0.1 error or an 0.0000001 error; does it matter?</p>
+
+<p>Even when you don&rsquo;t use floats, note that your code can implicit &ldquo;create&rdquo; then. PHP, for example, treat some strings as floats.</p>
+
+<p>You should observe your language nuances, your code stability and your needs for precision when working with floats.</p>
+
+                <br>
+                <p><a href="http://gabrielteles.com.br/blog/">Back to posts</a></p>
+            </div>
+            <br>
+            <div class="disqus">
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+    var pageTracker = _gat._getTracker("UA-77712252-1");
+    pageTracker._trackPageview();
+} catch(err) {}
+</script>
+
+
+
+</body>
+</html>
+

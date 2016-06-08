@@ -6,8 +6,82 @@
     <description>Recent content in Blog on Gabriel Teles</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Wed, 11 May 2016 19:31:48 -0300</lastBuildDate>
+    <lastBuildDate>Wed, 08 Jun 2016 01:20:19 -0300</lastBuildDate>
     <atom:link href="http://gabrielteles.com.br/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>How floats can screw your code</title>
+      <link>http://gabrielteles.com.br/blog/how-floats-can-screw-your-code/</link>
+      <pubDate>Wed, 08 Jun 2016 01:20:19 -0300</pubDate>
+      
+      <guid>http://gabrielteles.com.br/blog/how-floats-can-screw-your-code/</guid>
+      <description>
+
+&lt;p&gt;At &lt;a href=&#34;https://www.pdvend.com.br/&#34;&gt;PDVend&lt;/a&gt; I handle monetary operations everytime and everywhere at our codebase, from our Ruby on Rails API to our client apps. Since money isn&amp;rsquo;t just integer at all, we have a lot of trouble with this. I&amp;rsquo;ll show you some implications of using floats (or doubles) in your code, some situations that you actually can use it and alternatives to.&lt;/p&gt;
+
+&lt;h4 id=&#34;floats-are-evil:dd275889c84c5fa9cf6dac833d96526d&#34;&gt;Floats are evil&lt;/h4&gt;
+
+&lt;p&gt;Let&amp;rsquo;s start trying out Ruby:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;puts&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;a + b = &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;#{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You probably expect this to output something like &lt;code&gt;a + b = 0.3&lt;/code&gt;. Try to run and you&amp;rsquo;ll see that it&amp;rsquo;s &lt;code&gt;a + b = 0.30000000000000004&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;What just happened here? To answer this, we must remember that floats are binary representations of decimal numbers. Not always binary can represent them or it&amp;rsquo;s operations with exact accuracy. Memory is limited, you cannot handle them&lt;/p&gt;
+
+&lt;p&gt;But what about real world examples?&lt;/p&gt;
+
+&lt;p&gt;In 1991, an missile was launched in Saudi Arabia against an american detachment. Another missile called Patriot was going to intercept it. Since Patriot missile battery was on for about 100 hours, it let the timestamps, which where stored as floats, to slowly introduce some diferences from the real timestamp to the computed timestamp.&lt;/p&gt;
+
+&lt;p&gt;If you remember your physics classes, you can imagine that in order to intercept, Patriot would have to calculate the other missile speed and distance and adjust it direction to the other missile. Speed is measured in distance by time and, since  interceptor missile has some mismatches in time, I think it&amp;rsquo;s not going to work.&lt;/p&gt;
+
+&lt;p&gt;Back to our case, Patriot had about a &lt;sup&gt;1&lt;/sup&gt;&amp;frasl;&lt;sub&gt;3&lt;/sub&gt; second of difference in it&amp;rsquo;s timestamp. It means aproximately 600 meters due to it&amp;rsquo;s speed. Float killed 23 soldiers that day.&lt;/p&gt;
+
+&lt;p&gt;You can read about the case in the U.S. Government Accountability Office &lt;a href=&#34;http://www.gao.gov/products/IMTEC-92-26&#34;&gt;Report&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h4 id=&#34;not-that-evil-when-to-use-how-to-use:dd275889c84c5fa9cf6dac833d96526d&#34;&gt;Not &lt;em&gt;that&lt;/em&gt; evil&amp;hellip; When to use? How to use?&lt;/h4&gt;
+
+&lt;p&gt;Float inaccuracy can be an serious problem in some cases. Is it in all cases?&lt;/p&gt;
+
+&lt;p&gt;Most of programmers only discover about float problems in the day which them have some trouble with it. It happens because, for most cases, some little imprecisions are tolerated. In some cases floats are transformed to integers.&lt;/p&gt;
+
+&lt;p&gt;This datatype can be used when you can handle small imprecisions, like when there&amp;rsquo;s no problem if your character&amp;rsquo;s HP bar is 0.000000282px to the right or 0.000000013231px emptier than it should be.&lt;/p&gt;
+
+&lt;p&gt;When using this datatypes, keep attention to possible errors looking to this points:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Sums or subtractions (&amp;ldquo;Unsafe&amp;rdquo; operations, due to floating point math)&lt;/li&gt;
+&lt;li&gt;Operations in iterations&lt;/li&gt;
+&lt;li&gt;Code stability (wheter it tent do reduce or magnify errors if floats)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;alternatives-to-float:dd275889c84c5fa9cf6dac833d96526d&#34;&gt;Alternatives to Float&lt;/h4&gt;
+
+&lt;p&gt;Most languages have workarounds to floats. Here goes some of them:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;C#: &lt;a href=&#34;https://msdn.microsoft.com/en-us/library/364x0z75.aspx?f=255&amp;amp;MSPPError=-2147217396&#34;&gt;decimal&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Java: &lt;a href=&#34;https://docs.oracle.com/javase/7/docs/api/java/math/BigDecimal.html&#34;&gt;java.math.BigDecimal&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Javascript: &lt;a href=&#34;https://github.com/MikeMcl/bignumber.js&#34;&gt;bignumber.js&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;PHP: &lt;a href=&#34;http://php.net/manual/en/ref.bc.php&#34;&gt;BC Module&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Ruby: &lt;a href=&#34;http://ruby-doc.org/stdlib-2.1.2/libdoc/bigdecimal/rdoc/BigDecimal.html&#34;&gt;BigDecimal&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Another strategy is to simplify your usage of floats. At PDVend, one of the solutions that emerged when we had to resolve float problems with money was to treat all of it as cents, the smallest money unit available.&lt;/p&gt;
+
+&lt;p&gt;Examine what makes senses to your business.&lt;/p&gt;
+
+&lt;h4 id=&#34;conclusion:dd275889c84c5fa9cf6dac833d96526d&#34;&gt;Conclusion&lt;/h4&gt;
+
+&lt;p&gt;Float is evil, floats can kill, but you can give them a try. You should only keep an eye on your needs and restrictions. Think about what would happen if you have an 0.1 error or an 0.0000001 error; does it matter?&lt;/p&gt;
+
+&lt;p&gt;Even when you don&amp;rsquo;t use floats, note that your code can implicit &amp;ldquo;create&amp;rdquo; then. PHP, for example, treat some strings as floats.&lt;/p&gt;
+
+&lt;p&gt;You should observe your language nuances, your code stability and your needs for precision when working with floats.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Hello World</title>
