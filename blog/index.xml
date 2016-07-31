@@ -6,8 +6,60 @@
     <description>Recent content in Blog on Gabriel Teles</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Wed, 08 Jun 2016 01:20:19 -0300</lastBuildDate>
+    <lastBuildDate>Sat, 30 Jul 2016 21:39:13 -0300</lastBuildDate>
     <atom:link href="http://gabrielteles.com.br/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Using Github Repository as Maven Repository</title>
+      <link>http://gabrielteles.com.br/blog/using-github-repository-as-maven-repository/</link>
+      <pubDate>Sat, 30 Jul 2016 21:39:13 -0300</pubDate>
+      
+      <guid>http://gabrielteles.com.br/blog/using-github-repository-as-maven-repository/</guid>
+      <description>
+
+&lt;p&gt;&lt;img src=&#34;http://gabrielteles.com.br/images/octocat-repository.jpg&#34; alt=&#34;Octocat Repository&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Last week I was working in a project that needed a private Maven Repository since we couldn&amp;rsquo;t expose our artifacts in repositories like &lt;a href=&#34;https://bintray.com/bintray/jcenter&#34;&gt;JCenter&lt;/a&gt; or &lt;a href=&#34;http://search.maven.org/&#34;&gt;Maven Central&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This situation led me to some possible solutions, which I learned from searching. I&amp;rsquo;m not sure if they&amp;rsquo;re the best or if there are easier options, but I&amp;rsquo;ll explain a bit about them and why Github appeared the best to me.&lt;/p&gt;
+
+&lt;h3 id=&#34;creating-an-private-server-running-artifactory:05bb5eb4a1145f415d6af3e318805140&#34;&gt;Creating an private server running Artifactory&lt;/h3&gt;
+
+&lt;p&gt;I&amp;rsquo;ve used &lt;a href=&#34;https://www.jfrog.com/open-source/&#34;&gt;JFrog Artifactory&lt;/a&gt; in the past, with other projects. Since it&amp;rsquo;s a &amp;ldquo;native&amp;rdquo; solution to our problem, I thought first about using it.&lt;/p&gt;
+
+&lt;p&gt;The main obstacle to this option is that it has some chances of causing problems in the future. We would have to manage it, upgrade when necessary, control access (!), etc. It somehow runs out of our main devops assignments.&lt;/p&gt;
+
+&lt;p&gt;I think if we&amp;rsquo;re a bigger company, this could have been an perfect solution, after all, it cleverly solves this problem.&lt;/p&gt;
+
+&lt;h3 id=&#34;using-jitpack-io-https-jitpack-io:05bb5eb4a1145f415d6af3e318805140&#34;&gt;Using &lt;a href=&#34;https://jitpack.io/&#34;&gt;jitpack.io&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Jitpack is a service that allow you to publish JVM/Android libraries in git (Github, Bitbucket, GitLab, etc) repositories and use them just adding &lt;code&gt;https://jitpack.io&lt;/code&gt; as a maven repository in the project which will consume that artifacts. It has another great features, check it out!&lt;/p&gt;
+
+&lt;p&gt;Of course it is also an nice solution. It solves the problem which I&amp;rsquo;ve found on the first option: no more maven repository management tasks. But it let me a bit uncomfortable because to use it with one private repository you have to pay U$9. Yeah, it&amp;rsquo;s a small amount, but between managing Artifactory and paying it, I&amp;rsquo;d rather take first one.&lt;/p&gt;
+
+&lt;p&gt;I don&amp;rsquo;t know if you thought the same I did, but one repository is too few! Now I think it&amp;rsquo;s sufficient. We could use one repository to publish all our artifacts and serve them using Jitpack.&lt;/p&gt;
+
+&lt;h3 id=&#34;github-raw-version:05bb5eb4a1145f415d6af3e318805140&#34;&gt;Github raw version&lt;/h3&gt;
+
+&lt;p&gt;Because of the &amp;ldquo;anatomy&amp;rdquo; of how maven search for artifacts in given repositories, trying to read &lt;code&gt;http://your-repositorys-url.com/your/artifacts/group/id/pom.xml&lt;/code&gt;, some reading made me try to use &lt;code&gt;https://raw.githubusercontent.com/username/repository/master/&lt;/code&gt; as respository.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve got partial success by using it: authentication knocked me down! With public Github repositories, it works like a charm. Private repositories do need HTTP&amp;rsquo;s basic auth, if I&amp;rsquo;m not mistaken. I&amp;rsquo;m not sure if it was my or gradle&amp;rsquo;s fault. Even using maven repository credentials, it hasn&amp;rsquo;t worked.&lt;/p&gt;
+
+&lt;p&gt;As we needed private hosting, it has not solved our main problem, but gave me some clues!&lt;/p&gt;
+
+&lt;h3 id=&#34;gradle-plugin-to-rule-them-all:05bb5eb4a1145f415d6af3e318805140&#34;&gt;Gradle Plugin to rule them all&lt;/h3&gt;
+
+&lt;p&gt;Finally I&amp;rsquo;ve found &lt;a href=&#34;https://github.com/layerhq/gradle-git-repo-plugin&#34;&gt;layerhq/gradle-git-repo-plugin&lt;/a&gt;, &lt;em&gt;&amp;ldquo;this plugin allows you to add a git repository as a maven repo, even if the git repository is private, similar to how CocoaPods works.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;It allowed me to use Github private repositories as Maven repository just by adding &lt;code&gt;git(&amp;quot;https://some/clone/url.git&amp;quot;, &amp;quot;arbitrary.unique.name&amp;quot;, &amp;quot;master&amp;quot;, &amp;quot;releases&amp;quot;)&lt;/code&gt; and following the setup steps described in the readme.&lt;/p&gt;
+
+&lt;p&gt;More than just using git repositories, this plugin adds an &lt;code&gt;publishToGithub&lt;/code&gt; gradle task to generate artifacts, commit and push them to the repository! This 100% solved my problem.&lt;/p&gt;
+
+&lt;h3 id=&#34;the-happy-end:05bb5eb4a1145f415d6af3e318805140&#34;&gt;The Happy End&lt;/h3&gt;
+
+&lt;p&gt;Now I can publish and retrieve Maven artifacts from private git repositories, don&amp;rsquo;t mind about managing maven repository server or even managing permissions, since only our devs and CI environment have access to our Github repository and they can/should access and generate this artifacts.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>How floats can screw your code</title>

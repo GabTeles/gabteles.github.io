@@ -3,8 +3,13 @@
   
   <url>
     <loc>http://gabrielteles.com.br/</loc>
-    <lastmod>2016-06-08T01:20:19-03:00</lastmod>
+    <lastmod>2016-07-30T21:39:13-03:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://gabrielteles.com.br/blog/using-github-repository-as-maven-repository/</loc>
+    <lastmod>2016-07-30T21:39:13-03:00</lastmod>
   </url>
   
   <url>
